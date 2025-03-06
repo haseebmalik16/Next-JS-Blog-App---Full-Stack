@@ -26,16 +26,16 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
 
         formData.append("content", content);
 
-        startTransition(() => {
-            action(formData);
-        })
+        if (action) {
+            startTransition(() => action(formData));
+        }
     }
 
     return (
         <div className='max-w-4xl mx-auto p-6'>
             <Card>
                 <CardHeader>
-                    <CardTitle className='capitalize'>Create new article</CardTitle>
+                    <CardTitle className='capitalize'>Edit Article</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className='space-y-6'>
@@ -46,7 +46,7 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
                                 defaultValue={article.title}
                                 placeholder='Enter a article title'
                             />
-                            {formState.errors.title && <span className='text-red-600 text-sm'>{formState.errors.title}</span>}
+                            {formState?.errors?.title && <span className='text-red-600 text-sm'>{formState.errors.title}</span>}
                         </div>
                         <div className='space-y-2'>
                             <Label>Category</Label>
@@ -56,7 +56,7 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
                                 <option value='programming'>Programming</option>
                                 <option value='web-development'>Web Development</option>
                             </select>
-                            {formState.errors.category && <span className='text-red-600 text-sm'>{formState.errors.category}</span>}
+                            {formState?.errors?.category && <span className='text-red-600 text-sm'>{formState.errors.category}</span>}
                         </div>
                         <div className='space-y-2'>
                             <Label htmlFor='featuredImage'>Featured Image</Label>
@@ -67,17 +67,15 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
                                 accept='image/*'
                             />
                             <div className='mb-4 overflow-hidden'>
-                                {
-                                    article.featuredImage && (
-                                        <Image src={article.featuredImage}
-                                            height={60}
-                                            width={200}
-                                            alt='featured_image'
-                                            className='
-                                         object-cover rounded-md'
-                                        />
-                                    )
-                                }
+                                {article.featuredImage && (
+                                    <Image
+                                        src={article.featuredImage}
+                                        height={60}
+                                        width={200}
+                                        alt='featured_image'
+                                        className='object-cover rounded-md'
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className='space-y-2'>
@@ -87,14 +85,12 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
                                 value={content}
                                 onChange={setContent}
                             />
-                            {formState.errors.content && <span className='text-red-600 text-sm'>{formState.errors.content[0]}</span>}
+                            {formState?.errors?.content?.[0] && <span className='text-red-600 text-sm'>{formState.errors.content[0]}</span>}
                         </div>
                         <div className='flex justify-end gap-4'>
                             <Button variant={'outline'}>Cancel</Button>
                             <Button type='submit' disabled={isPending}>
-                                {
-                                    isPending ? "Loading..." : "Edit Article"
-                                }
+                                {isPending ? "Loading..." : "Edit Article"}
                             </Button>
                         </div>
                     </form>
