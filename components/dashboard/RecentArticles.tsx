@@ -1,10 +1,12 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Button } from '../ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Badge } from '../ui/badge'
-import Link from 'next/link'
-import { Prisma } from '@prisma/client'
+'use client'
+import React, { useTransition } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Badge } from '../ui/badge';
+import Link from 'next/link';
+import { Prisma } from '@prisma/client';
+import { deleteArticle } from '@/actions/deleteArticle';
 
 type RecentArticlesProps = {
     articles: Prisma.ArticlesGetPayload<{
@@ -60,7 +62,7 @@ const RecentArticles: React.FC<RecentArticlesProps> = ({ articles }) => {
                                                         <Link href={`/dashboard/articles/${article.id}/edit`}>
                                                             <Button variant={'ghost'} size={'sm'}>Edit</Button>
                                                         </Link>
-                                                        <DeleteButton />
+                                                        <DeleteButton articleId={article.id} />
                                                     </div>
                                                 </TableCell>
 
@@ -81,11 +83,20 @@ const RecentArticles: React.FC<RecentArticlesProps> = ({ articles }) => {
 
 export default RecentArticles
 
-const DeleteButton = () => {
+type DeleteButtonProps = {
+    articleId: string
+}
+
+const DeleteButton: React.FC<DeleteButtonProps> = ({ articleId }) => {
+    const [isPending, startTransition] = useTransition();
     return (
-        <form>
-            <Button variant={'ghost'} size={'sm'} type='submit'>
-                Delete
+        <form action={() => {
+            startTransition(async () => {
+                await deleteArticle(articleId);
+            })
+        }}>
+            <Button disabled={isPending} variant={'ghost'} size={'sm'} type='submit'>
+                {isPending ? "Loading..." : "Delete"}
             </Button>
         </form>
     )

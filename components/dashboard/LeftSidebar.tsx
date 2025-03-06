@@ -37,7 +37,7 @@ const DashboardSidebar = () => {
     return (
         <div className='h-full px-4 py-6'>
             <div className='flex items-center gap-2 mb-8 px-2'>
-                <Link href={'/'}>
+                <Link href='/'>
                     <span className='text-xl font-bold'>ByteCode</span>
                 </Link>
             </div>

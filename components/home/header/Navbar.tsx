@@ -46,20 +46,20 @@ const Navbar = () => {
 
                         {/* user actions  */}
                         <SignedIn>
-                            <UserButton/>
+                            <UserButton />
                         </SignedIn>
                         <SignedOut>
-                        <div className='hidden md:flex items-center gap-2'>
-                            <SignInButton>
-                            <Button variant={'outline'}>Login</Button>
-                            </SignInButton>
-                            <SignUpButton>
-                            <Button>Signup</Button>
-                            </SignUpButton>
-                        </div>
+                            <div className='hidden md:flex items-center gap-2'>
+                                <SignInButton>
+                                    <Button variant={'outline'}>Login</Button>
+                                </SignInButton>
+                                <SignUpButton>
+                                    <Button>Signup</Button>
+                                </SignUpButton>
+                            </div>
                         </SignedOut>
 
-                        
+
                     </div>
 
                     {/* Mobile Menu Button */}
