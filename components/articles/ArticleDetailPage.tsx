@@ -4,7 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import LikeButton from './LikeButton'
 import CommentList from '../comments/CommentList'
 import CommentInput from '../comments/CommentInput'
-
+import { prisma } from '@/lib/prisma'
+import { auth } from '@clerk/nextjs/server'
 type ArticleDetailPageProps = {
     article: Prisma.ArticlesGetPayload<{
         include: {
@@ -20,7 +21,37 @@ type ArticleDetailPageProps = {
 }
 
 
-const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ article }) => {
+const ArticleDetailPage: React.FC<ArticleDetailPageProps> = async ({ article }) => {
+    // all comments fetch.
+    const comments = await prisma.comment.findMany({
+        where: { articleId: article.id },
+        include: {
+            author: {
+                select: {
+                    name: true,
+                    email: true,
+                    imageUrl: true
+                }
+            }
+        }
+    });
+
+    const likes = await prisma.like.findMany({
+        where: { articleId: article.id }
+    });
+
+    // find userID.
+    const { userId } = await auth();
+
+    // find the user.
+    const user = await prisma.user.findUnique({
+        where: {
+            clerkUserId: userId as string
+        }
+    });
+
+    const isLiked: boolean = likes.some((like) => like.userId === user?.id);
+
     return (
         <div className='min-h-screen bg-background'>
             <main className='container mx-auto py-12 px-4 sm:px-6 lg:px-6'>
@@ -47,13 +78,13 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ article }) => {
                     <section className='mb-12 max-w-none' dangerouslySetInnerHTML={{ __html: article.content }} />
 
                     {/* article actions button  */}
-                    <LikeButton />
+                    <LikeButton articleId={article.id} likes={likes} isLiked={isLiked} />
 
                     {/* comment input  */}
-                    <CommentInput />
+                    <CommentInput articleId={article.id} />
 
                     {/* comment section  */}
-                    <CommentList />
+                    <CommentList comments={comments} />
                 </article>
             </main>
         </div>
