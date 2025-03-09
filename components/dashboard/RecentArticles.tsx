@@ -64,17 +64,14 @@ const RecentArticles: React.FC<RecentArticlesProps> = ({ articles }) => {
                                                     <DeleteButton articleId={article.id} />
                                                 </div>
                                             </TableCell>
-
                                         </TableRow>
                                     ))
                                 }
-
                             </TableBody>
                         </Table>
                     </CardContent>
                 )
             }
-
         </Card>
     )
 }

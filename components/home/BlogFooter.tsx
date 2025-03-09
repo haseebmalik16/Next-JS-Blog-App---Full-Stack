@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { LinkedinIcon, GithubIcon, TwitterIcon, MailIcon } from "lucide-react";
+import { LinkedinIcon, GithubIcon, MailIcon, YoutubeIcon } from "lucide-react";
+import Link from 'next/link';
 
 const BlogFooter = () => {
     return (
@@ -22,15 +23,19 @@ const BlogFooter = () => {
                         </p>
 
                         <div className="mt-6 flex gap-2">
-                            <Button variant="ghost" size="icon">
-                                <TwitterIcon className="h-5 w-5 text-muted-foreground" />
-                            </Button>
-                            <Button variant="ghost" size="icon">
-                                <GithubIcon className="h-5 w-5 text-muted-foreground" />
-                            </Button>
-                            <Button variant="ghost" size="icon">
-                                <LinkedinIcon className="h-5 w-5 text-muted-foreground" />
-                            </Button>
+                            <Link href='https://www.youtube.com/@haseebmernstack' target='_blank'>
+                                <Button variant="ghost" size="icon">
+                                    <YoutubeIcon className="h-5 w-5 text-muted-foreground" />
+                                </Button>
+                            </Link>
+                            <Link target='_blank' href='https://github.com/haseebmalik16'>
+                                <Button variant="ghost" size="icon">
+                                    <GithubIcon className="h-5 w-5 text-muted-foreground" />
+                                </Button></Link>
+                            <Link target='_blank' href='https://www.linkedin.com/in/haseeb-mernstack-973aa732a/'>
+                                <Button variant="ghost" size="icon">
+                                    <LinkedinIcon className="h-5 w-5 text-muted-foreground" />
+                                </Button></Link>
                         </div>
                     </div>
 

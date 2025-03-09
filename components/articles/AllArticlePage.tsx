@@ -2,15 +2,25 @@ import React from 'react'
 import { Card } from '../ui/card'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { fetchArticleByQuery } from '@/lib/query/fetchArticleByQuery'
 import { Search } from 'lucide-react'
+import { Badge } from '../ui/badge'
+import type { Prisma } from '@prisma/client'
 
 type AllArticlePageProps = {
-  searchText: string
-}
+  articles: Prisma.ArticlesGetPayload<{
+    include: {
+      author: {
+        select: {
+          name: true,
+          email: true,
+          imageUrl: true
+        }
+      }
+    }
+  }>[];
+};
 
-const AllArticlePage: React.FC<AllArticlePageProps> = async ({ searchText }) => {
-  const articles = await fetchArticleByQuery(searchText)
+const AllArticlePage: React.FC<AllArticlePageProps> = async ({ articles }) => {
 
   if (articles.length <= 0) {
     return <NoSearchResults />
@@ -26,8 +36,9 @@ const AllArticlePage: React.FC<AllArticlePageProps> = async ({ searchText }) => 
                 <Image src={article.featuredImage} alt='blog_image' fill className='object-cover' />
               </div>
               {/* article content  */}
-              <h3 className='text-xl font-semibold'>{article.title}</h3>
-              <p className='mt-2'>{article.category}</p>
+              <h3 className='text-xl font-bold leading-tight tracking-tight'>{article.title}</h3>
+              <Badge className='capitalize mt-2 font-medium py-2 cursor-not-allowed'>{article.category}</Badge>
+              {/* <p className='mt-2 text-sm text-gray-700'>{article.content}</p> */}
 
               <div className='mt-6 flex items-center justify-between'>
                 <div className='flex items-center gap-3'>

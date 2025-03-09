@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { prisma } from '@/lib/prisma'
+import { Badge } from '../ui/badge'
 
 const TopArticles = async () => {
     const articles = await prisma.articles.findMany({
@@ -43,9 +44,7 @@ const TopArticles = async () => {
                                         <span className=''>{article.author.name}</span>
                                     </div>
                                     <h3 className='mt-4 text-xl font-semibold text-gray-900 dark:text-white'>{article.title}</h3>
-                                    <p className='mt-2 text-gray-600 dark:text-gray-300'>
-                                        {article.category}
-                                    </p>
+                                    <Badge className='py-2 mt-2 font-medium capitalize'>{article.category}</Badge>
                                     <div className='mt-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400'>
                                         <span>{article.createdAt.toDateString()}</span>
                                         <span>12 min to read</span>
@@ -56,7 +55,6 @@ const TopArticles = async () => {
                     </>
                 ))
             }
-
         </div>
     )
 }

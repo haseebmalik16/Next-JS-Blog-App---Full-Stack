@@ -72,7 +72,6 @@ const EditArticlePage: React.FC<EditArticleProps> = ({ article }) => {
                                         src={article.featuredImage}
                                         height={60}
                                         width={200}
-                                        fill
                                         alt='featured_image'
                                         className='object-cover rounded-md'
                                     />

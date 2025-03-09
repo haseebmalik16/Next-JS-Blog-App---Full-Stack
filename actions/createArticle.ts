@@ -106,7 +106,7 @@ export const createArticle = async (prevState: createArticlesFormstate, formData
         await prisma.articles.create({
             data: {
                 title: result.data.title,
-                category: result.data.content,
+                category: result.data.category,
                 content: result.data.content,
                 featuredImage: imageUrl,
                 authorId: existingUser.id,
